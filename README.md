@@ -1,4 +1,4 @@
-Blackjack
+<h1>Blackjack</h1>
 
 I wanted to get familiar with owning a Github account so I used an existing project to produce my first repository.<br>
 
