@@ -112,7 +112,7 @@ public class BlackJack {
      * number of players in the starting round
      * of the game
      *
-     * @param args
+     * @param args Command-line arguments
      */
     private static void parseArgs(String[] args) {
         CommandLineParser parser = new BasicParser();
