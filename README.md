@@ -3,6 +3,7 @@
 I wanted to get familiar with owning a Github account so I used an existing project to produce my first repository.<br>
 
 Example of the command line interaction:
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Number of players is 2<br>
 player1: please enter initial balance:<br>
