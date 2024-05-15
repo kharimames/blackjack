@@ -1,5 +1,5 @@
 /***
- *
+ * <p>
  *
  *
  */
@@ -28,12 +28,11 @@ import com.kharim.games.blackjack.util.DealerRuleResolver;
 import com.kharim.games.blackjack.util.DealerShoeRetriever;
 import com.kharim.games.blackjack.util.DealerShoeRetrieverImpl;
 
-import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.lang3.ArrayUtils;
@@ -41,10 +40,10 @@ import org.apache.commons.lang3.math.NumberUtils;
 
 /**
  * Soft 17 rule by default
- *
+ * <p>
  *
  * kharim
- *
+ * <p>
  * First argument - number of players
  * Use command line parser to initialize
  */
@@ -115,20 +114,22 @@ public class BlackJack {
      * @param args Command-line arguments
      */
     private static void parseArgs(String[] args) {
-        CommandLineParser parser = new BasicParser();
+        CommandLineParser parser = new DefaultParser();
         Options options = new Options();
-        Option playersOption = OptionBuilder.withArgName("numOfPlayers_")
-                .isRequired()
-                .withType(Integer.class)
+        Option playersOption = Option.builder("players")
+                .argName("numOfPlayers_")
+                .required()
+                .type(Integer.class)
                 .hasArg()
-                .withDescription("Number of players <int>")
-                .create("players");
-        Option numOfCardDecksOption = OptionBuilder.withArgName("numOfCardDecks_")
-                .isRequired(false)
-                .withType(Integer.class)
+                .desc("Number of players <int>")
+                .build();
+        Option numOfCardDecksOption = Option.builder("decks")
+                .argName("numOfCardDecks_")
+                .required(false)
+                .type(Integer.class)
                 .hasArg()
-                .withDescription("Number of card decks, default is 4 <int>")
-                .create("decks");
+                .desc("Number of card decks, default is 4 <int>")
+                .build();
         options.addOption(playersOption);
         options.addOption(numOfCardDecksOption);
         try {
@@ -141,8 +142,7 @@ public class BlackJack {
             }
         } catch (ParseException parseEx) {
             System.err.println("Exception parsing arguments");
-            if (options != null)
-                new HelpFormatter().printHelp("blackjack", options);
+            new HelpFormatter().printHelp("blackjack", options);
         } catch (NumberFormatException numEx) {
             System.err.println("Check numeric arguments");
             new HelpFormatter().printHelp("blackjack", options);
@@ -152,8 +152,8 @@ public class BlackJack {
     /**
      * Starts the round
      *
-     * @param round
-     * @param dealerShoe
+     * @param round Game round
+     * @param dealerShoe Dealer shoe
      */
     private static void playGame(Rounds round, Deque<CARDS> dealerShoe){
         try {
@@ -180,7 +180,7 @@ public class BlackJack {
                             System.out.println(player.getId() + " - Please enter your bet:");
                             double bet = scanner_.nextDouble();//TODO Add validation for the bet (should be less than the balance) and make it a string to avoid InputMismatchException
                             if (bet > player.getBalance()) {
-                                System.out.println(String.format("Bet ($%.2f) cannot be more than balance ($%.2f)", bet, player.getBalance()));
+                                System.out.printf("Bet ($%.2f) cannot be more than balance ($%.2f)%n", bet, player.getBalance());
                                 isInvalidBet = true;
                             }
                             else if (bet <= 0) {
@@ -283,7 +283,7 @@ public class BlackJack {
                                 int response = parsePlayerResponse();
                                 playersDecision = PlayersDecision.getDecisionByCode(response);
                                 switch (playersDecision) {
-                                    case HIT:
+                                    case HIT -> {
                                         isResponseValid = true;
 
                                         // For a hit, add a card to the betting box and continue
@@ -292,36 +292,29 @@ public class BlackJack {
                                         player.addCard(card);
                                         //TODO Remove table call below
                                         table.put(player, ArrayUtils.addAll(cards, card));
-                                        break;
-                                    case STAND:
+                                    }
+                                    case STAND -> {
                                         isResponseValid = true;
                                         playerRequestsStay = true;
-
                                         System.out.println(player.getId() + " stands");
                                         // Record new score
                                         round.updateBetType(player, BetType.STAND, Arrays.stream(scores).max().getAsInt());
                                         System.out.println(CARDS.prettyPrint(player.getId(), numOfCardDecks_, cards));
-                                        break;
-                                    case DOUBLE:
-                                        //playersDecision = PlayersDecision.DOUBLE;
-                                        // Add some logic to double the score if blackjack is scored
-                                        //isResponseValid = true;
-                                        //break;
-                                    case SPLIT:
-                                        //playersDecision = PlayersDecision.SPLIT;
-                                        //isResponseValid = true;
-                                        //break;
-                                    case SURRENDER:
-                                        //playersDecision = PlayersDecision.SURRENDER;
-                                        //isResponseValid = true;
-                                        //break;
-                                    case INVALID_DECISION:
-                                        isResponseValid = false;
-                                        break;
-                                    default:
+                                    }
+                                    //playersDecision = PlayersDecision.DOUBLE;
+                                    // Add some logic to double the score if blackjack is scored
+                                    //isResponseValid = true;
+                                    //break;
+                                    //playersDecision = PlayersDecision.SPLIT;
+                                    //isResponseValid = true;
+                                    //break;
+                                    //playersDecision = PlayersDecision.SURRENDER;
+                                    //isResponseValid = true;
+                                    //break;
+                                    case DOUBLE, SPLIT, SURRENDER, INVALID_DECISION -> isResponseValid = false;
+                                    default ->
                                         // Should never come here
-                                        System.out.println("Please enter a valid response");
-                                        break;
+                                            System.out.println("Please enter a valid response");
                                 }
                             } while (!isResponseValid);
                             // Player decision recorded - TODO Can we move this logic inside of the switch statement?
@@ -386,7 +379,7 @@ public class BlackJack {
 
             //TODO Add a max counter to avoid this going in a loop
             while (choice == null) {
-                System.out.println(String.format("You entered an invalid choice (%s), please enter y or n!:", choiceInput));
+                System.out.printf("You entered an invalid choice (%s), please enter y or n!:%n", choiceInput);
                 choiceInput = scanner_.next();
                 choice = Choice.parseChoice(choiceInput);
             }
@@ -395,7 +388,7 @@ public class BlackJack {
                 System.out.println("Please enter additional balance " + player + ":");
                 Double balance = scanner_.nextDouble();
                 player.updateBalance(balance);
-                System.out.println(String.format("%s balance is now $%.2f", player.getId(), player.getBalance()));
+                System.out.printf("%s balance is now $%.2f%n", player.getId(), player.getBalance());
             }
         }
     }
