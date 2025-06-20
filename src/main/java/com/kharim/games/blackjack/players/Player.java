@@ -10,7 +10,7 @@ import org.apache.commons.lang3.math.NumberUtils;
  * kharim
  */
 public class Player extends AbstractPlayer {
-    private Double balance = 0d;
+    private Double balance;
     private final String id;
     private boolean isActive;
 
@@ -72,34 +72,23 @@ public class Player extends AbstractPlayer {
      */
     @Override
     public void calculateWinnings(Double bet, BetType betType) {
-        switch(betType) {
-            case BLACKJACK:     this.updateBalance(bet * 1.5);
-                break;
-            case DOUBLE:        this.updateBalance(bet); //TODO Confirm this
-                break;
-            case STAND:         this.updateBalance(bet);
-                break;
-            case BUST:
-            case LOST:          this.updateBalance(bet * -1);
-                break;
-            case DEALER_MATCH:
-            case INSURANCE:     throw new UnsupportedOperationException("Pending");
-            default:
-                throw new IllegalArgumentException("Bet type has to be: " + Arrays.toString(BetType.values()));
+        switch (betType) {
+            case BLACKJACK -> this.updateBalance(bet * 1.5);
+            case DOUBLE -> this.updateBalance(bet); //TODO Confirm this
+            case STAND -> this.updateBalance(bet);
+            case BUST, LOST -> this.updateBalance(bet * -1);
+            case DEALER_MATCH, INSURANCE -> throw new UnsupportedOperationException("Pending");
+            default -> throw new IllegalArgumentException("Bet type has to be: " + Arrays.toString(BetType.values()));
         }
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Player)) return false;
-
-        Player player = (Player) o;
+        if (!(o instanceof Player player)) return false;
 
         if (balance != null ? !balance.equals(player.balance) : player.balance != null) return false;
-        if (id != null ? !id.equals(player.id) : player.id != null) return false;
-
-        return true;
+        return id != null ? id.equals(player.id) : player.id == null;
     }
 
     @Override

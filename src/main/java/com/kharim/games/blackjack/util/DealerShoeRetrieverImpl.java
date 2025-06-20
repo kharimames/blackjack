@@ -8,8 +8,6 @@ import java.util.Random;
 
 import com.kharim.games.blackjack.cards.CARDS;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 /**
  * Class to create the dealer shoe after shuffling the deck(s)
  *
@@ -20,23 +18,21 @@ public class DealerShoeRetrieverImpl implements DealerShoeRetriever {
 
     // Convert this to static method, no need for an instance
     public DealerShoeRetrieverImpl(int numOfPacks) {
-        List<CARDS[]> decks = new ArrayList<>();
+        List<CARDS> allCards = new ArrayList<>();
         for (int i = 0; i < numOfPacks; i++) {
             CARDS[] deck = CARDS.values();
             // Shuffle each 'pack'
             Collections.shuffle(Arrays.asList(deck), new Random());
-            decks.add(deck);
+            allCards.addAll(Arrays.asList(deck));
         }
-        CARDS[] dealersShoe = null;
-        for (int i = 0; i < decks.size(); i++) {
-            dealersShoe = ArrayUtils.addAll(decks.get(i), dealersShoe);
-        }
-        if (dealersShoe == null)
+        
+        if (allCards.isEmpty()) {
             throw new IllegalArgumentException("Dealer shoe shouldn't be empty");
+        }
 
         // Shuffle all of the cards in the dealer shoe
-        Collections.shuffle(Arrays.asList(dealersShoe), new Random());
-        this.dealersShoe = dealersShoe;
+        Collections.shuffle(allCards, new Random());
+        this.dealersShoe = allCards.toArray(new CARDS[0]);
     }
 
     public CARDS[] getDealersShoe() {

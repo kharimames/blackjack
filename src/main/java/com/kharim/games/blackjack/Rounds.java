@@ -11,8 +11,6 @@ import com.kharim.games.blackjack.players.Dealer;
 import com.kharim.games.blackjack.players.IPlayer;
 import com.kharim.games.blackjack.players.PlayerType;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 /**
  * Round object, contains the players and their bets
  *
