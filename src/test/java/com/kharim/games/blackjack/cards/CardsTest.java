@@ -1,9 +1,8 @@
 package com.kharim.games.blackjack.cards;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * kharim
@@ -16,6 +15,6 @@ public class CardsTest {
         for (CARDS card : deck) {
             value += card.getValue();
         }
-        assertThat(value, is(95 * SUITES.values().length));
+        assertEquals(95 * SUITES.values().length, value);
     }
 }

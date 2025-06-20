@@ -5,11 +5,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Deque;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * kharim
@@ -28,7 +26,7 @@ public class CardPopulationTest {
         System.out.println(deque);
         int i = 0;
         while(!deque.isEmpty()) {
-            assertThat(deque.pop(), is(nums[i++]));
+            assertEquals(nums[i++], deque.pop());
         }
     }
 }

@@ -5,10 +5,9 @@ import java.util.Map;
 import com.kharim.games.blackjack.players.IPlayer;
 import com.kharim.games.blackjack.players.Player;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test immutability of the round object
@@ -33,8 +32,8 @@ public class PlayerMapImmutability {
 
         map.clear();
         System.out.println(rounds.getPlayers());
-        assertThat(rounds.getPlayers().size(), is(2));
-        assertThat(rounds.getPlayers().get(playerId1).getBalance(), is(player1.getBalance()));
-        assertThat(rounds.getPlayers().get(playerId2).getBalance(), is(player2.getBalance()));
+        assertEquals(2, rounds.getPlayers().size());
+        assertEquals(player1.getBalance(), rounds.getPlayers().get(playerId1).getBalance());
+        assertEquals(player2.getBalance(), rounds.getPlayers().get(playerId2).getBalance());
     }
 }
