@@ -2,7 +2,7 @@ package com.kharim.games.blackjack.cards;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * kharim
@@ -15,6 +15,6 @@ public class CardsTest {
         for (CARDS card : deck) {
             value += card.getValue();
         }
-        assertEquals(95 * SUITES.values().length, value);
+        assertThat(value).isEqualTo(95 * SUITES.values().length);
     }
 }

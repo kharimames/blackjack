@@ -18,10 +18,10 @@
     <description>This is the com.kharim.games:blackjack project</description>
 
     <properties>
-        <hamcrest-version>2.2</hamcrest-version>
         <maven.compiler.release>21</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.13.1</junit.version>
+        <assertj.version>3.25.3</assertj.version>
     </properties>
 
     <dependencyManagement>
@@ -59,9 +59,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest</artifactId>
-            <version>${hamcrest-version}</version>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

@@ -7,7 +7,7 @@ import java.util.Deque;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * kharim
@@ -26,7 +26,7 @@ public class CardPopulationTest {
         System.out.println(deque);
         int i = 0;
         while(!deque.isEmpty()) {
-            assertEquals(nums[i++], deque.pop());
+            assertThat(deque.pop()).isEqualTo(nums[i++]);
         }
     }
 }
