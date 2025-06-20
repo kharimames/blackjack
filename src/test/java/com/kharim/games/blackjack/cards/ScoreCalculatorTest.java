@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * kharim
@@ -18,7 +18,7 @@ public class ScoreCalculatorTest {
         // Score here would be 12
         int[] results = {twoOfClubs.getValue() + kingOfHearts.getValue()};
         int[] scores = CARDS.calculateValue(NUM_OF_CARD_DECKS, twoOfClubs, kingOfHearts);
-        assertTrue(Arrays.equals(results, scores));
+        assertThat(scores).isEqualTo(results);
     }
 
     @Test
@@ -33,7 +33,7 @@ public class ScoreCalculatorTest {
         Arrays.sort(results);
         int[] scores = CARDS.calculateValue(NUM_OF_CARD_DECKS, aceOfDiamonds, eightOfSpades);
         Arrays.sort(scores);
-        assertTrue(Arrays.equals(results, scores));
+        assertThat(scores).isEqualTo(results);
     }
 
     /**
@@ -56,7 +56,7 @@ public class ScoreCalculatorTest {
         Arrays.sort(results);
         int[] scores = CARDS.calculateValue(NUM_OF_CARD_DECKS, ace1, ace2, ace3, ace4);
         Arrays.sort(scores);
-        assertTrue(Arrays.equals(results, scores));
+        assertThat(scores).isEqualTo(results);
     }
 
     /**
@@ -79,6 +79,6 @@ public class ScoreCalculatorTest {
         Arrays.sort(results);
         int[] scores = CARDS.calculateValue(NUM_OF_CARD_DECKS, ace1, ace2, ace3, ace4);
         Arrays.sort(scores);
-        assertTrue(Arrays.equals(results, scores));
+        assertThat(scores).isEqualTo(results);
     }
 }

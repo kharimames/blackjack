@@ -7,7 +7,7 @@ import com.kharim.games.blackjack.players.Player;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Test immutability of the round object
@@ -32,8 +32,8 @@ public class PlayerMapImmutability {
 
         map.clear();
         System.out.println(rounds.getPlayers());
-        assertEquals(2, rounds.getPlayers().size());
-        assertEquals(player1.getBalance(), rounds.getPlayers().get(playerId1).getBalance());
-        assertEquals(player2.getBalance(), rounds.getPlayers().get(playerId2).getBalance());
+        assertThat(rounds.getPlayers()).hasSize(2);
+        assertThat(rounds.getPlayers().get(playerId1).getBalance()).isEqualTo(player1.getBalance());
+        assertThat(rounds.getPlayers().get(playerId2).getBalance()).isEqualTo(player2.getBalance());
     }
 }
